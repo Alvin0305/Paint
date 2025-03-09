@@ -1,14 +1,14 @@
-package com.example.paint.paint.sidebar;
+package com.example.paint.paint.sidebar.translate;
 
 import com.example.paint.assets.Config;
+import com.example.paint.assets.Functions;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class TranslateOption extends TitledPane {
-
+public class TranslateDotOption extends TitledPane {
     private final TextField xField = new TextField();
     private final TextField yField = new TextField();
 
@@ -17,8 +17,8 @@ public class TranslateOption extends TitledPane {
     private final HBox fields = new HBox(xField, yField);
     private VBox content = new VBox(fields, translateButton);
 
-    public TranslateOption() {
-        this.setText("Translate");
+    public TranslateDotOption() {
+        this.setText("Translate Dot");
         xField.setPromptText("dx...");
         yField.setPromptText("dy...");
 
@@ -28,14 +28,8 @@ public class TranslateOption extends TitledPane {
         this.setExpanded(false);
     }
 
-    private double getValue(TextField field) {
-        String stringValue = field.getText();
-        if (stringValue.isBlank()) return 0;
-        return Double.parseDouble(stringValue);
-    }
-
     private void onAction() {
-        double xValue = getValue(xField), yValue = getValue(yField);
+        double xValue = Functions.getValue(xField), yValue = Functions.getValue(yField);
 
         if (Config.selectedDot != null) {
             Config.selectedDot.translate(xValue, yValue);

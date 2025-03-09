@@ -4,5 +4,6 @@ public enum Shape {
     DOT,
     LINE,
     CIRCLE,
-    SPLINE
+    SPLINE,
+    TRIANGLE
 }

@@ -60,7 +60,12 @@ public class Dot extends Rectangle {
 
     // listeners
     public void onClick() {
-        select();
+        Dot selectedDot = Config.selectedDot;
+        if (selectedDot == this) {
+            unselect();
+        } else {
+            select();
+        }
     }
 
     public void setStroke(double stroke) {
@@ -70,7 +75,9 @@ public class Dot extends Rectangle {
     }
 
     public void select() {
+        System.out.println("selecting");
         Dot selectedDot = Config.selectedDot;
+        Line selectedLine = Config.selectedLine;
         if (selectedDot != null) {
             selectedDot.unselect();
         }
@@ -78,11 +85,34 @@ public class Dot extends Rectangle {
             Config.selectedDot = this;
             this.setFill(Config.selectedColor);
         }
+        if (selectedLine != null) {
+            selectedLine.unselect();
+        }
+        Config.selectedLine = null;
+        Config.selectedShape = Shape.DOT;
+
+        if (! Config.sideBar.getChildren().contains(Config.translateDotOption)) {
+            Config.sideBar.getChildren().add(Config.translateDotOption);
+        }
+        if (! Config.sideBar.getChildren().contains(Config.scaleDotOption)) {
+            Config.sideBar.getChildren().add(Config.scaleDotOption);
+        }
+        if (! Config.sideBar.getChildren().contains(Config.rotateDotOption)) {
+            Config.sideBar.getChildren().add(Config.rotateDotOption);
+        }
+        if (! Config.sideBar.getChildren().contains(Config.moveDotOption)) {
+            Config.sideBar.getChildren().add(Config.moveDotOption);
+        }
     }
 
     public void unselect() {
         this.setFill(color);
         Config.selectedDot = null;
+        System.out.println("unselecting");
+        Config.sideBar.getChildren().remove(Config.translateDotOption);
+        Config.sideBar.getChildren().remove(Config.scaleDotOption);
+        Config.sideBar.getChildren().remove(Config.rotateDotOption);
+        Config.sideBar.getChildren().remove(Config.moveDotOption);
     }
 
     public void refresh() {

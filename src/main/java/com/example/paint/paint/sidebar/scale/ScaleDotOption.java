@@ -1,8 +1,9 @@
-package com.example.paint.paint.sidebar;
+package com.example.paint.paint.sidebar.scale;
 
 import com.example.paint.assets.Config;
+import com.example.paint.assets.Functions;
 import com.example.paint.paint.shapes.Dot;
-import com.example.paint.paint.shapes.Shape;
+import com.example.paint.paint.sidebar.Heading;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
@@ -10,7 +11,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class ScaleOption extends TitledPane {
+public class ScaleDotOption extends TitledPane {
     private final Heading pivotHeading = new Heading("Center");
     private final TextField pivotXField = new TextField();
     private final TextField pivotYField = new TextField();
@@ -31,20 +32,18 @@ public class ScaleOption extends TitledPane {
     private final HBox fields = new HBox(sxField, syField);
     private VBox content = new VBox(pivotHeading, pivotBox, scaleHeading, uniformScalingBox, fields, scaleButton);
 
-    public ScaleOption() {
-        if (Config.selectedShape == Shape.DOT) {
-            pivotXField.setPromptText("x...");
-            pivotYField.setPromptText("y...");
-            sxField.setPromptText("sx...");
-            syField.setPromptText("sy...");
-            sxyField.setPromptText("s...");
+    public ScaleDotOption() {
+        pivotXField.setPromptText("x...");
+        pivotYField.setPromptText("y...");
+        sxField.setPromptText("sx...");
+        syField.setPromptText("sy...");
+        sxyField.setPromptText("s...");
 
-            uniformScalingBox.setOnAction(event -> handleUniformScaling());
-            scaleButton.setOnAction(event -> onAction());
+        uniformScalingBox.setOnAction(event -> handleUniformScaling());
+        scaleButton.setOnAction(event -> onAction());
 
-            this.setText("Scale");
-            this.setContent(content);
-        }
+        this.setText("Scale Dot");
+        this.setContent(content);
 
         this.setExpanded(false);
     }
@@ -62,27 +61,21 @@ public class ScaleOption extends TitledPane {
         }
     }
 
-    private double getValue(TextField field) {
-        String stringValue = field.getText();
-        if (stringValue.isBlank()) return 0;
-        return Double.parseDouble(stringValue);
-    }
-
     public void onAction() {
-        double pivotX = getValue(pivotXField), pivotY = getValue(pivotYField);
+        double pivotX = Functions.getValue(pivotXField), pivotY = Functions.getValue(pivotYField);
 
         Dot selectedDot = Config.selectedDot;
         if (selectedDot == null) return;
-
         if (uniformScalingBox.isSelected()) {
-            double sxyValue = getValue(sxyField);
+            double sxyValue = Functions.getValue(sxyField);
+
             if (pivotX == 0 && pivotY == 0) {
                 selectedDot.scale(sxyValue);
             } else {
                 selectedDot.scale(pivotX, pivotY, sxyValue);
             }
         } else {
-            double sxValue = getValue(sxField), syValue = getValue(syField);
+            double sxValue = Functions.getValue(sxField), syValue = Functions.getValue(syField);
             if (pivotX == 0 && pivotY == 0) {
                 selectedDot.scale(sxValue, syValue);
             } else {
@@ -90,6 +83,4 @@ public class ScaleOption extends TitledPane {
             }
         }
     }
-
-
 }
