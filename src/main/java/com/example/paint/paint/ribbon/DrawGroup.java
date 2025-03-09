@@ -10,6 +10,7 @@ public class DrawGroup extends VBox {
     HBox buttons = new HBox();
     Button dotButton = new Button(".");
     Button lineButton = new Button("/");
+    Button triangleButton = new Button("<");
     Button circleButton = new Button("o");
     Button splineButton = new Button("~");
 
@@ -18,13 +19,14 @@ public class DrawGroup extends VBox {
     public DrawGroup() {
         addListeners();
 
-        buttons.getChildren().addAll(dotButton, lineButton, circleButton, splineButton);
+        buttons.getChildren().addAll(dotButton, lineButton, triangleButton, circleButton, splineButton);
         this.getChildren().addAll(buttons, groupName);
     }
 
     private void addListeners() {
         dotButton.setOnAction(event -> {
             Config.sideBar.getChildren().remove(Config.drawLineOption);
+            Config.sideBar.getChildren().remove(Config.drawTriangleOption);
             if (! Config.sideBar.getChildren().contains(Config.drawDotOption)) {
                 System.out.println("adding dot option");
                 Config.sideBar.getChildren().addFirst(Config.drawDotOption);
@@ -32,9 +34,18 @@ public class DrawGroup extends VBox {
         });
         lineButton.setOnAction(event -> {
             Config.sideBar.getChildren().remove(Config.drawDotOption);
+            Config.sideBar.getChildren().remove(Config.drawTriangleOption);
             if (! Config.sideBar.getChildren().contains(Config.drawLineOption)) {
                 System.out.println("adding line option");
                 Config.sideBar.getChildren().addFirst(Config.drawLineOption);
+            }
+        });
+        triangleButton.setOnAction(event -> {
+            Config.sideBar.getChildren().remove(Config.drawDotOption);
+            Config.sideBar.getChildren().remove(Config.drawLineOption);
+            if (! Config.sideBar.getChildren().contains(Config.drawTriangleOption)) {
+                System.out.println("adding triangle option");
+                Config.sideBar.getChildren().addFirst(Config.drawTriangleOption);
             }
         });
     }

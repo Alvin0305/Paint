@@ -12,6 +12,7 @@ import com.example.paint.paint.sidebar.scale.ScaleDotOption;
 import com.example.paint.paint.sidebar.scale.ScaleLineOption;
 import com.example.paint.paint.sidebar.translate.TranslateDotOption;
 import com.example.paint.paint.sidebar.translate.TranslateLineOption;
+import com.example.paint.paint.sidebar.translate.TranslateTriangleOption;
 import javafx.scene.layout.VBox;
 
 public class SideBar extends VBox {
@@ -22,6 +23,7 @@ public class SideBar extends VBox {
 
         TranslateDotOption translateDotOption = new TranslateDotOption();
         TranslateLineOption translateLineOption = new TranslateLineOption();
+        TranslateTriangleOption translateTriangleOption = new TranslateTriangleOption();
 
         ScaleDotOption scaleDotOption = new ScaleDotOption();
         ScaleLineOption scaleLineOption = new ScaleLineOption();
@@ -38,6 +40,7 @@ public class SideBar extends VBox {
 
         Config.translateDotOption = translateDotOption;
         Config.translateLineOption = translateLineOption;
+        Config.translateTriangleOption = translateTriangleOption;
 
         Config.scaleDotOption = scaleDotOption;
         Config.scaleLineOption = scaleLineOption;

@@ -152,6 +152,9 @@ public class Triangle {
         dot2.toFront();
         dot3.toFront();
 
+        if (! Config.sideBar.getChildren().contains(Config.translateTriangleOption)) {
+            Config.sideBar.getChildren().add(Config.translateTriangleOption);
+        }
         if (! Config.sideBar.getChildren().contains(Config.rotateTriangleOption)) {
             Config.sideBar.getChildren().add(Config.rotateTriangleOption);
         }

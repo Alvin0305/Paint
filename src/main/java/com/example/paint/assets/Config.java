@@ -8,8 +8,10 @@ import com.example.paint.paint.shapes.Triangle;
 import com.example.paint.paint.sidebar.*;
 import com.example.paint.paint.sidebar.draw.DrawDotOption;
 import com.example.paint.paint.sidebar.draw.DrawLineOption;
+import com.example.paint.paint.sidebar.draw.DrawTriangleOption;
 import com.example.paint.paint.sidebar.move.MoveDotOption;
 import com.example.paint.paint.sidebar.move.MoveLineOption;
+import com.example.paint.paint.sidebar.move.MoveTriangleOption;
 import com.example.paint.paint.sidebar.rotate.RotateDotOption;
 import com.example.paint.paint.sidebar.rotate.RotateLineOption;
 import com.example.paint.paint.sidebar.rotate.RotateTriangleOption;
@@ -17,6 +19,7 @@ import com.example.paint.paint.sidebar.scale.ScaleDotOption;
 import com.example.paint.paint.sidebar.scale.ScaleLineOption;
 import com.example.paint.paint.sidebar.translate.TranslateDotOption;
 import com.example.paint.paint.sidebar.translate.TranslateLineOption;
+import com.example.paint.paint.sidebar.translate.TranslateTriangleOption;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -32,10 +35,12 @@ public class Config {
         //draw
         public static DrawDotOption drawDotOption;
         public static DrawLineOption drawLineOption;
+        public static DrawTriangleOption drawTriangleOption;
 
         // translate
         public static TranslateDotOption translateDotOption;
         public static TranslateLineOption translateLineOption;
+        public static TranslateTriangleOption translateTriangleOption;
 
         // scale
         public static ScaleDotOption scaleDotOption;
@@ -49,6 +54,7 @@ public class Config {
         // move
         public static MoveDotOption moveDotOption;
         public static MoveLineOption moveLineOption;
+        public static MoveTriangleOption moveTriangleOption;
 
     // Global
     public static Shape selectedShape = Shape.LINE;
