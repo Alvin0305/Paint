@@ -3,6 +3,7 @@ package com.example.paint.paint.shapes;
 import com.example.paint.assets.Config;
 import com.example.paint.assets.Functions;
 import com.example.paint.paint.canvas.Canvas;
+import com.example.paint.paint.sidebar.details.LineDetails;
 
 import java.util.ArrayList;
 
@@ -100,6 +101,9 @@ public class Line {
         }
     }
 
+    private boolean detailsAdded = false;
+    private LineDetails lineDetails;
+
     public void select() {
         System.out.println("selecting line");
         Triangle selectedTriangle = Config.selectedTriangle;
@@ -139,10 +143,20 @@ public class Line {
         if (! Config.sideBar.getChildren().contains(Config.moveLineOption)) {
             Config.sideBar.getChildren().add(Config.moveLineOption);
         }
+        if (! detailsAdded) {
+            lineDetails = new LineDetails(this);
+            Config.sideBar.getChildren().add(lineDetails);
+            detailsAdded = true;
+        } else {
+            Config.sideBar.getChildren().remove(lineDetails);
+            lineDetails = new LineDetails(this);
+            Config.sideBar.getChildren().add(lineDetails);
+        }
     }
 
     public void unselect() {
         Config.selectedLine = null;
+        Config.selectedShape = null;
 
         startDot.setFill(Config.defaultLineColor);
         startDot.setHeight(Config.defaultLineWidth);
@@ -155,6 +169,7 @@ public class Line {
         Config.sideBar.getChildren().remove(Config.scaleLineOption);
         Config.sideBar.getChildren().remove(Config.rotateLineOption);
         Config.sideBar.getChildren().remove(Config.moveLineOption);
+        Config.sideBar.getChildren().remove(lineDetails);
     }
 
     public void deleteExceptEnds() {

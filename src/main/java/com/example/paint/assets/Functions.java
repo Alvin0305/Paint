@@ -4,6 +4,14 @@ import javafx.scene.control.TextField;
 
 public class Functions {
 
+    public static double slope(double[] coordinates1, double[] coordinates2) {
+        return slope(coordinates1[0], coordinates1[1], coordinates2[0], coordinates2[1]);
+    }
+
+    public static double slope(double x1, double y1, double x2, double y2) {
+        return (y2 - y1) / (x2 - x1);
+    }
+
     public static double[] midpoint(double[] coordinates1, double[] coordinates2) {
         return midpoint(coordinates1[0], coordinates1[1], coordinates2[0], coordinates2[1]);
     }
@@ -28,5 +36,9 @@ public class Functions {
         String stringValue = field.getText();
         if (stringValue.isBlank()) return 0;
         return Double.parseDouble(stringValue);
+    }
+
+    public static String coordinatesToString(double[] coordinates) {
+        return "[" + coordinates[0] + ", " + coordinates[1] + "]";
     }
 }

@@ -4,6 +4,7 @@ import com.example.paint.assets.Config;
 import com.example.paint.assets.Matrix;
 import com.example.paint.assets.Transformation;
 import com.example.paint.paint.canvas.Canvas;
+import com.example.paint.paint.sidebar.details.DotDetails;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -74,16 +75,23 @@ public class Dot extends Rectangle {
         this.stroke = stroke;
     }
 
+    private boolean detailsAdded = false;
+    DotDetails dotDetails;
+
     public void select() {
         System.out.println("selecting");
         Dot selectedDot = Config.selectedDot;
         Line selectedLine = Config.selectedLine;
+        Triangle selectedTriangle = Config.selectedTriangle;
         if (selectedDot != null) {
             selectedDot.unselect();
         }
         if (selectedDot != this) {
             Config.selectedDot = this;
             this.setFill(Config.selectedColor);
+        }
+        if (selectedTriangle != null) {
+            selectedTriangle.unselect();
         }
         if (selectedLine != null) {
             selectedLine.unselect();
@@ -103,16 +111,27 @@ public class Dot extends Rectangle {
         if (! Config.sideBar.getChildren().contains(Config.moveDotOption)) {
             Config.sideBar.getChildren().add(Config.moveDotOption);
         }
+        if (! detailsAdded) {
+            dotDetails = new DotDetails(this);
+            Config.sideBar.getChildren().add(dotDetails);
+            detailsAdded = true;
+        } else {
+            Config.sideBar.getChildren().remove(dotDetails);
+            dotDetails = new DotDetails(this);
+            Config.sideBar.getChildren().add(dotDetails);
+        }
     }
 
     public void unselect() {
         this.setFill(color);
         Config.selectedDot = null;
+        Config.selectedShape = null;
         System.out.println("unselecting");
         Config.sideBar.getChildren().remove(Config.translateDotOption);
         Config.sideBar.getChildren().remove(Config.scaleDotOption);
         Config.sideBar.getChildren().remove(Config.rotateDotOption);
         Config.sideBar.getChildren().remove(Config.moveDotOption);
+        Config.sideBar.getChildren().remove(dotDetails);
     }
 
     public void refresh() {

@@ -3,21 +3,21 @@ package com.example.paint.paint.sidebar.scale;
 import com.example.paint.assets.Config;
 import com.example.paint.assets.Functions;
 import com.example.paint.paint.shapes.Line;
+import com.example.paint.paint.shapes.Shape;
+import com.example.paint.paint.shapes.Triangle;
 import com.example.paint.paint.sidebar.Heading;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class ScaleTriangleOption extends TitledPane {
+public class ScaleShapeOption extends TitledPane {
     private final Heading pivotHeading = new Heading("Center");
     private final TextField pivotXField = new TextField();
     private final TextField pivotYField = new TextField();
     private final HBox pivotBox = new HBox(pivotXField, pivotYField);
 
     ToggleGroup scaleGroup = new ToggleGroup();
-    RadioButton scaleStartBox = new RadioButton("Scale About Start");
     RadioButton scaleMiddleBox = new RadioButton("Scale About Middle");
-    RadioButton scaleEndBox = new RadioButton("Scale About End");
 
     private final Heading scaleHeading = new Heading("Scale Options");
 
@@ -30,10 +30,10 @@ public class ScaleTriangleOption extends TitledPane {
 
     private final Button scaleButton = new Button("Scale");
 
-    private VBox content = new VBox(pivotHeading, pivotBox, scaleStartBox, scaleMiddleBox, scaleEndBox,
+    private VBox content = new VBox(pivotHeading, pivotBox, scaleMiddleBox,
             scaleHeading, uniformScalingBox, fields, scaleButton);
 
-    public ScaleTriangleOption() {
+    public ScaleShapeOption() {
         pivotXField.setPromptText("x...");
         pivotYField.setPromptText("y...");
         sxField.setPromptText("sx...");
@@ -45,7 +45,7 @@ public class ScaleTriangleOption extends TitledPane {
         uniformScalingBox.setOnAction(event -> handleUniformScaling());
         scaleButton.setOnAction(event -> onAction());
 
-        this.setText("Scale Line");
+        this.setText("Scale Shape");
         this.setContent(content);
 
         this.setExpanded(false);
@@ -54,9 +54,7 @@ public class ScaleTriangleOption extends TitledPane {
     private RadioButton selectedButton = scaleMiddleBox;
 
     private void addListeners() {
-        scaleStartBox.setToggleGroup(scaleGroup);
         scaleMiddleBox.setToggleGroup(scaleGroup);
-        scaleEndBox.setToggleGroup(scaleGroup);
 
         pivotXField.setDisable(true);
         pivotYField.setDisable(true);
@@ -87,32 +85,37 @@ public class ScaleTriangleOption extends TitledPane {
         if (uniformScalingBox.isSelected() && ! content.getChildren().contains(sxyField)) {
             System.out.println("adding sxy");
             content.getChildren().remove(fields);
-            content.getChildren().add(7, sxyField);
+            content.getChildren().add(5, sxyField);
         } else if (! uniformScalingBox.isSelected() && ! content.getChildren().contains(fields)) {
             System.out.println("removing sxy");
             content.getChildren().remove(sxyField);
-            content.getChildren().add(7, fields);
+            content.getChildren().add(5, fields);
         }
     }
 
     public void onAction() {
         double pivotX = Functions.getValue(pivotXField), pivotY = Functions.getValue(pivotYField);
 
-        Line selectedLine = Config.selectedLine;
-        if (selectedLine == null) return;
         double sxy = Functions.getValue(sxyField), sx = Functions.getValue(sxField), sy = Functions.getValue(syField);
+        sx = (sx == 0) ? 1: sx;
+        sy = (sy == 0) ? 1: sy;
+        sxy = (sxy == 0) ? 1: sxy;
         if (uniformScalingBox.isSelected()) {
             sx = sxy;
             sy = sxy;
         }
-        if (scaleStartBox.isSelected()) {
-            selectedLine.scaleStart(sx, sy);
-        } else if (scaleMiddleBox.isSelected()) {
-            selectedLine.scaleMiddle(sx, sy);
-        } else if (scaleEndBox.isSelected()) {
-            selectedLine.scaleEnd(sx, sy);
-        } else {
-            selectedLine.scale(pivotX, pivotY, sx, sy);
+
+        if (Config.selectedShape == Shape.TRIANGLE) {
+            Triangle selectedTriangle = Config.selectedTriangle;
+            if (selectedTriangle == null) return;
+
+            if (scaleMiddleBox.isSelected()) {
+                System.out.println("scaling about middle");
+                selectedTriangle.scaleMiddle(sx, sy);
+            } else {
+                System.out.println("scaling about pivot");
+                selectedTriangle.scale(pivotX, pivotY, sx, sy);
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ package com.example.paint.paint.shapes;
 import com.example.paint.assets.Config;
 import com.example.paint.assets.Functions;
 import com.example.paint.paint.canvas.Canvas;
+import com.example.paint.paint.sidebar.details.TriangleDetails;
 
 import java.util.ArrayList;
 
@@ -116,6 +117,9 @@ public class Triangle {
         }
     }
 
+    private boolean detailsAdded = false;
+    private TriangleDetails triangleDetails;
+
     public void select() {
         System.out.println("selected");
         Line selectedLine = Config.selectedLine;
@@ -152,17 +156,33 @@ public class Triangle {
         dot2.toFront();
         dot3.toFront();
 
-        if (! Config.sideBar.getChildren().contains(Config.translateTriangleOption)) {
-            Config.sideBar.getChildren().add(Config.translateTriangleOption);
+        if (! Config.sideBar.getChildren().contains(Config.translateShapeOption)) {
+            Config.sideBar.getChildren().add(Config.translateShapeOption);
         }
-        if (! Config.sideBar.getChildren().contains(Config.rotateTriangleOption)) {
-            Config.sideBar.getChildren().add(Config.rotateTriangleOption);
+        if (! Config.sideBar.getChildren().contains(Config.rotateShapeOption)) {
+            Config.sideBar.getChildren().add(Config.rotateShapeOption);
+        }
+        if (! Config.sideBar.getChildren().contains(Config.scaleShapeOption)) {
+            Config.sideBar.getChildren().add(Config.scaleShapeOption);
+        }
+        if (! Config.sideBar.getChildren().contains(Config.moveShapeOption)) {
+            Config.sideBar.getChildren().add(Config.moveShapeOption);
+        }
+        if (! detailsAdded) {
+            triangleDetails = new TriangleDetails(this);
+            Config.sideBar.getChildren().add(triangleDetails);
+            detailsAdded = true;
+        } else {
+            Config.sideBar.getChildren().remove(triangleDetails);
+            triangleDetails = new TriangleDetails(this);
+            Config.sideBar.getChildren().add(triangleDetails);
         }
     }
 
     public void unselect() {
         System.out.println("unselected");
         Config.selectedTriangle = null;
+        Config.selectedShape = null;
 
         dot1.setFill(Config.defaultTriangleColor);
         dot2.setFill(Config.defaultTriangleColor);
@@ -176,10 +196,11 @@ public class Triangle {
         dot2.setHeight(Config.defaultTriangleWidth);
         dot3.setHeight(Config.defaultTriangleWidth);
 
-        Config.sideBar.getChildren().remove(Config.translateLineOption);
-        Config.sideBar.getChildren().remove(Config.scaleLineOption);
-        Config.sideBar.getChildren().remove(Config.rotateLineOption);
-        Config.sideBar.getChildren().remove(Config.moveLineOption);
+        Config.sideBar.getChildren().remove(Config.translateShapeOption);
+        Config.sideBar.getChildren().remove(Config.scaleShapeOption);
+        Config.sideBar.getChildren().remove(Config.rotateShapeOption);
+        Config.sideBar.getChildren().remove(Config.moveShapeOption);
+        Config.sideBar.getChildren().remove(triangleDetails);
     }
 
     private void deleteExceptEnds() {

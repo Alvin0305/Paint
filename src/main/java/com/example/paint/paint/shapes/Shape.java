@@ -5,5 +5,6 @@ public enum Shape {
     LINE,
     CIRCLE,
     SPLINE,
-    TRIANGLE
+    TRIANGLE,
+    QUADRILATERAL
 }
